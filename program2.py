@@ -85,7 +85,7 @@ hash_label = ttk.Label(frame, text="Select the hash algorithm:")
 hash_label.grid(row=0, column=0, sticky=tk.W)
 
 hash_algo_menu = ttk.Combobox(frame, textvariable=hash_algo_var, state='readonly')
-hash_algo_menu['values'] = ('sha256', 'sha224', 'sha_512', 'sha_384', 'sha1', 'md5')
+hash_algo_menu['values'] = ('sha256', 'sha224', 'sha512', 'sha_384', 'sha1', 'md5')
 hash_algo_menu.grid(row=0, column=1, sticky=(tk.W, tk.E))
 
 hash_entry = ttk.Entry(frame, width=40)
