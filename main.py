@@ -14,23 +14,7 @@ def calculate_hash(file_path, algorithm='sha256'):
         str: The hexadecimal representation of the hash.
     """
 
-    """
-    if algorithm == 'sha256':
-        hash_object = hashlib.sha256()
-    elif algorithm == 'sha1':
-        hash_object = hashlib.sha1()
-    elif algorithm == 'md5':
-        hash_object = hashlib.md5()
-    elif algorithm == "sha224":
-        hash_object = hashlib.sha224()
-    elif algorithm == "sha512":
-        hash_object = hashlib.sha512()
-    elif algorithm == "sha384":
-        hash_object = hashlib.sha384()
-       
-    else:
-        raise ValueError(f"Unknown hash algorithm: {algorithm}")
-"""
+
     match algorithm:
         case "sha256":
             hash_object = hashlib.sha256()
