@@ -1,5 +1,6 @@
 import hashlib
 import os
+import repair_file
 import tkinter as tk
 from tkinter import filedialog, ttk
 
@@ -51,10 +52,16 @@ def verify_hash():
     expected_hash = hash_entry.get()
     calculated_hash = calculate_hash(file_path, algorithm)
 
+    def repair_callback(file_path):
+        repair_tool = repair_file.Repair(os.path.dirname(file_path), os.path.dirname(file_path))
+        repair_tool.repair_files()
     if calculated_hash == expected_hash:
         result_label.config(text=f"Hash verification successful! Calculated hash: {calculated_hash}")
     else:
         result_label.config(text=f"Hash verification failed! Expected hash: {expected_hash}, Calculated hash: {calculated_hash}")
+        repair_button = ttk.Button(frame, text="Repair", command=lambda: repair_callback(file_path))
+        repair_button.grid(row=0, column=0, sticky=tk.W)
+
 
 app = tk.Tk()
 app.title("Hash Verifier")
@@ -74,11 +81,13 @@ hash_algo_menu.grid(row=0, column=1, sticky=(tk.W, tk.E))
 
 hash_entry = ttk.Entry(frame, width=40)
 hash_entry.grid(row=1, column=0, columnspan=2)
-
+#print('chegou')
 verify_button = ttk.Button(frame, text="Verify Hash", command=verify_hash)
 verify_button.grid(row=2, column=0, columnspan=2)
-
+#print('chegou2')
 result_label = ttk.Label(frame, text="")
 result_label.grid(row=3, column=0, columnspan=2)
+#print('chegou3')
+#repair = ttk.Label(frame)
 
 app.mainloop()
