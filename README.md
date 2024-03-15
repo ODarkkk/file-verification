@@ -1,6 +1,6 @@
 # file-verification
 
-This is a simple Python program that verifies your files.
+This is a simple Python program that verifies your files and try repair them.
 
 It has multiple hash options such as sha256, md5 and others.
 
@@ -12,5 +12,9 @@ To use the programme, download main.py to a path and then run the file in cmd wi
 Libraries used:
 
 hashlib;
+crc32c;
+pandas;
+PIL;
+openpyxl;
 os;
 tkinter.
