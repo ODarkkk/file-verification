@@ -1,6 +1,6 @@
 # file-verification
 
-This is a simple Python program that verifies your files.
+This is a simple Python program that verifies your files and try repair them.
 
 It has multiple hash options such as sha256, md5 and others.
 
