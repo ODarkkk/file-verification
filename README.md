@@ -12,5 +12,9 @@ To use the programme, download main.py to a path and then run the file in cmd wi
 Libraries used:
 
 hashlib;
+crc32c;
+pandas;
+PIL;
+openpyxl;
 os;
 tkinter.
