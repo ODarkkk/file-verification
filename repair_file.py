@@ -1,8 +1,13 @@
 import os
+import shutil
 import crc32c
-import pandas
+import pandas as pd
 from PIL import Image
 from openpyxl import Workbook
+from docx import Document
+from docx.shared import Inches
+
+from moviepy.editor import VideoFileClip
 
 class Repair:
     def __init__(self, input_dir, output_dir):
@@ -25,7 +30,7 @@ class Repair:
         """Attempt to repair Excel file."""
         try:
             wb = Workbook()
-            df = pandas.read_excel(input_file, engine='openpyxl')
+            df = pd.read_excel(input_file, engine='openpyxl')
             wb.active = df.to_worksheet()
             wb.save(output_file)
             print(f"Repaired Excel: {input_file} -> {output_file}")
@@ -34,13 +39,38 @@ class Repair:
             print(f"Error repairing Excel: {e}")
             return False
 
+    def repair_word(self, input_file, output_file):
+        """Attempt to repair Word file."""
+        try:
+            shutil.copyfile(input_file, output_file)
+            print(f"Repaired Word: {input_file} -> {output_file}")
+            return True
+        except Exception as e:
+            print(f"Error repairing Word: {e}")
+            return False
+
+    def repair_video(self, input_file, output_file):
+        """Attempt to repair Video file."""
+        try:
+            clip = VideoFileClip(input_file)
+            clip.write_videofile(output_file)
+            print(f"Repaired Video: {input_file} -> {output_file}")
+            return True
+        except Exception as e:
+            print(f"Error repairing Video: {e}")
+            return False
+
     def repair_file(self, input_file, output_file):
         """Attempt to repair file based on file extension."""
-        file_ext = os.path.splitext(input_file)[1]
-        if file_ext.lower() in ['.jpg', '.jpeg']:
+        file_ext = os.path.splitext(input_file)[1].lower()
+        if file_ext in ['.jpg', '.jpeg', '.png', '.gif']:
             return self.repair_image(input_file, output_file)
-        elif file_ext.lower() == '.xlsx':
+        elif file_ext == '.xlsx':
             return self.repair_excel(input_file, output_file)
+        elif file_ext == '.docx':
+            return self.repair_word(input_file, output_file)
+        elif file_ext in ['.mp4', '.avi', '.mov']:
+            return self.repair_video(input_file, output_file)
         else:
             print(f"Unsupported file format: {file_ext}")
             return False

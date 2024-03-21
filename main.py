@@ -3,7 +3,19 @@ import os
 import tkinter as tk
 from tkinter import filedialog, ttk
 from repair_file import Repair
+import sys
 
+# List of libraries you need to import
+required_libraries = ['crc32c', 'tkinter', 'pandas', 'PIL', 'openpyxl']
+
+# Try to import each required library
+for lib in required_libraries:
+    try:
+        globals()[lib] = __import__(lib)
+    except ImportError:
+        # If import fails, append the directory of libraries to sys.path and try again
+        sys.path.append('./lib')
+        globals()[lib] = __import__(lib)
 def calculate_hash(file_path, algorithm='sha256'):
     """Calculate the hash of a file using the specified algorithm."""
     hash_object = hashlib.new(algorithm)
@@ -28,7 +40,7 @@ def verify_hash():
     else:
         result_label.config(text=f"Hash verification failed! Expected hash: {expected_hash}, Calculated hash: {calculated_hash}")
         repair_button = ttk.Button(frame, text="Repair", command=lambda: repair_callback(file_path))
-        repair_button.grid(row=0, column=0, sticky=tk.W)
+        repair_button.grid(row=4, column=0, sticky=tk.W)
 
 def repair_callback(file_path):
     repair_tool = Repair(os.path.dirname(file_path), os.path.dirname(file_path))
@@ -48,7 +60,7 @@ hash_algo_var = tk.StringVar(frame)
 hash_algo_var.set('sha256')
 
 hash_label = ttk.Label(frame, text="Select the hash algorithm:")
-hash_label.grid(row=0, column=0, sticky=tk.W)
+hash_label.grid(row=1, column=0, sticky=tk.W)
 
 hash_algo_menu = ttk.Combobox(frame, textvariable=hash_algo_var, state='readonly')
 hash_algo_menu['values'] = ('sha256', 'sha224', 'sha512', 'sha384', 'sha1', 'md5')
