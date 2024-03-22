@@ -3,6 +3,7 @@ import os
 import tkinter as tk
 from tkinter import filedialog, ttk
 from repair_file import Repair
+import shedule
 import sys
 
 # List of libraries you need to import
@@ -57,28 +58,58 @@ frame = ttk.Frame(app, padding="10")
 frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
 hash_algo_var = tk.StringVar(frame)
+
+
+def open_config_tab():
+    # Create a new window for the configuration tab
+    config_window = tk.Toplevel(app)
+    config_window.title("Settings")
+
+    # Add the configuration elements in this new window
+    #config_label = ttk.Label(config_window, text="Settings")
+    #config_label.pack()
+
+    shedule_button = ttk.Button(frame, text="Set a timer", command = )
+
+    #verify_button = ttk.Button(frame, text="Verify Hash", command=verify_hash)
+    #verify_button.grid(row=3, column=1, columnspan=2)
+
+
+
+    # You can add more widgets and functionalities as needed
+
+
+
 hash_algo_var.set('sha256')
 
 hash_label = ttk.Label(frame, text="Select the hash algorithm:")
-hash_label.grid(row=1, column=0, sticky=tk.W)
+hash_label.grid(row=0, column=0, sticky=tk.W)
 
 hash_algo_menu = ttk.Combobox(frame, textvariable=hash_algo_var, state='readonly')
 hash_algo_menu['values'] = ('sha256', 'sha224', 'sha512', 'sha384', 'sha1', 'md5')
 hash_algo_menu.grid(row=0, column=1, sticky=(tk.W, tk.E))
 
+hash2_label = ttk.Label(frame, text="Put the hash of program (optional):")
+hash2_label.grid(row=1, column=0, sticky=tk.W)
+
 hash_entry = ttk.Entry(frame, width=40)
-hash_entry.grid(row=1, column=0, columnspan=2)
+hash_entry.grid(row=1, column=1, columnspan=1)
 
 verify_button = ttk.Button(frame, text="Verify Hash", command=verify_hash)
-verify_button.grid(row=2, column=0, columnspan=2)
+verify_button.grid(row=3, column=1, columnspan=2)
+
+# Add a button to open the configuration tab
+config_button = ttk.Button(frame, text="Settings", command=open_config_tab)
+config_button.grid(row=5, column=0, sticky=(tk.W))
+
 
 result_label = ttk.Label(frame, text="")
 result_label.grid(row=3, column=0, columnspan=2)
 
 repair_text_label = ttk.Label(frame, text="Repaired Files:")
-repair_text_label.grid(row=4, column=0, columnspan=2)
+repair_text_label.grid(row=6, column=0, columnspan=2)
 
 repair_text = tk.Text(frame, height=10, width=40)
-repair_text.grid(row=5, column=0, columnspan=2)
+repair_text.grid(row=7, column=0, columnspan=2)
 
 app.mainloop()
