@@ -69,7 +69,8 @@ def open_config_tab():
     #config_label = ttk.Label(config_window, text="Settings")
     #config_label.pack()
 
-    shedule_button = ttk.Button(frame, text="Set a timer", command = )
+    shedule_button = ttk.Button(config_window, text="Set a timer", command = shedule)
+    shedule_button.grid(row=1, column=1, columnspan=2)
 
     #verify_button = ttk.Button(frame, text="Verify Hash", command=verify_hash)
     #verify_button.grid(row=3, column=1, columnspan=2)
