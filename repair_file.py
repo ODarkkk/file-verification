@@ -6,9 +6,9 @@ import pyzipper
 import PyPDF2
 from PIL import Image
 from openpyxl import Workbook
-import zipfile
-from docx import Document
-from docx.shared import Inches
+#import zipfile
+#from docx import Document
+#from docx.shared import Inches
 from moviepy.editor import VideoFileClip
 
 
@@ -29,7 +29,7 @@ class Repair:
             print(f"Error repairing image: {e}")
             return False
 
-    def repair_zip(input_file, output_file):
+    def repair_zip(self, input_file, output_file):
         """Repair a ZIP file using pyzipper."""
         try:
             with pyzipper.AESZipFile(input_file, mode='r') as zin:

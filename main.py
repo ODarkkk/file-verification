@@ -4,10 +4,11 @@ import tkinter as tk
 from tkinter import filedialog, ttk
 from repair_file import Repair
 import shedule
+import ctypes
 import sys
 
 # List of libraries you need to import
-required_libraries = ['crc32c', 'tkinter', 'pandas', 'PIL', 'openpyxl']
+required_libraries = ['crc32c', 'tkinter', 'pandas', 'PIL', 'openpyxl', 'sys', 'hashlib', 'os']
 
 # Try to import each required library
 for lib in required_libraries:
@@ -41,7 +42,7 @@ def verify_hash():
     else:
         result_label.config(text=f"Hash verification failed! Expected hash: {expected_hash}, Calculated hash: {calculated_hash}")
         repair_button = ttk.Button(frame, text="Repair", command=lambda: repair_callback(file_path))
-        repair_button.grid(row=4, column=0, sticky=tk.W)
+        repair_button.grid(row=5, column=0, sticky=tk.W)
 
 def repair_callback(file_path):
     repair_tool = Repair(os.path.dirname(file_path), os.path.dirname(file_path))
@@ -59,17 +60,32 @@ frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
 hash_algo_var = tk.StringVar(frame)
 
+def create_shedule_form():
+    # Create a new window for the configuration tab
+    config_window = tk.Toplevel(app)
+    config_window.title("Settings")
 
+    # Create a new frame inside the config_window
+    settings_frame = ttk.Frame(config_window, padding="10")
+    settings_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+    # Create an instance of SheduleForm
+    shedule_form = shedule.SheduleForm()
+    shedule_form.create_widgets()
 def open_config_tab():
     # Create a new window for the configuration tab
+
     config_window = tk.Toplevel(app)
     config_window.title("Settings")
 
     # Add the configuration elements in this new window
     #config_label = ttk.Label(config_window, text="Settings")
     #config_label.pack()
+    settings_frame = ttk.Frame(config_window, padding="10")
+    settings_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
 
-    shedule_button = ttk.Button(config_window, text="Set a timer", command = shedule)
+
+    shedule_button = ttk.Button(settings_frame, text="Set a timer", command=lambda: shedule.SheduleForm().create_widgets())
     shedule_button.grid(row=1, column=1, columnspan=2)
 
     #verify_button = ttk.Button(frame, text="Verify Hash", command=verify_hash)
@@ -79,6 +95,15 @@ def open_config_tab():
 
     # You can add more widgets and functionalities as needed
 
+
+def isadmin():
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
+if isadmin() == False:
+    ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
 
 
 hash_algo_var.set('sha256')
@@ -101,11 +126,11 @@ verify_button.grid(row=3, column=1, columnspan=2)
 
 # Add a button to open the configuration tab
 config_button = ttk.Button(frame, text="Settings", command=open_config_tab)
-config_button.grid(row=5, column=0, sticky=(tk.W))
+config_button.grid(row=6, column=0, sticky=(tk.W))
 
 
 result_label = ttk.Label(frame, text="")
-result_label.grid(row=3, column=0, columnspan=2)
+result_label.grid(row=4, column=0, columnspan=2)
 
 repair_text_label = ttk.Label(frame, text="Repaired Files:")
 repair_text_label.grid(row=6, column=0, columnspan=2)
